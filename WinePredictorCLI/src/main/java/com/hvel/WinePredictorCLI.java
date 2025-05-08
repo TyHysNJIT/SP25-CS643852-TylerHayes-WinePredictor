@@ -1,8 +1,12 @@
 package com.hvel;
+import org.apache.spark.ml.classification.LogisticRegressionModel;
 import org.apache.spark.ml.linalg.Vector;
 import org.apache.spark.ml.linalg.Vectors;
-import org.apache.spark.ml.classification.LogisticRegressionModel;
-import org.apache.spark.sql.*;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SparkSession;
+import static org.apache.spark.sql.functions.col;
+
 
 public class WinePredictorCLI {
     public static void main(String[] args) {
@@ -42,7 +46,7 @@ public class WinePredictorCLI {
 
             // Make & display predictions
             Dataset<Row> predictions = model.transform(df);
-            predictions.select("Predicted Quality").show(false);
+            predictions.select(col("prediction").alias("Predicted Quality")).show(false);
         } catch (Exception e) {
             System.err.println("An error was thrown: " + e.getMessage());
             e.printStackTrace();
